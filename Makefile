@@ -10,7 +10,7 @@ run :
 		--tmpfs /run:size=250M --tmpfs /run/lock:size=100M \
 		-v /sys/fs/cgroup:/sys/fs/cgroup:rw \
 		--cgroupns=host \
-		--name solarnode-experimental solarnode-experimental
+		--name solarnode-experimental snmatt/sndev:solarnode-experimental
 		
 stop : 
 	docker stop solarnode-experimental
