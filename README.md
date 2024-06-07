@@ -20,15 +20,24 @@ You can use `make` with the following targets:
 | `tag`   | Tag the latest SolarNode image |
 | `push`  | Push the latest SolarNode image tag |
 
-# Future research
+# Serial device support
 
-The following sections detail areas needed further research.
 
-## Serial device support
+Serial devices connected to the host system can be used in the container
+by adding this to the `run` command to give udev access to the container:
 
-Serial devices connected to the host system are unlikely to work as-is.
+```
+-v /dev:/dev -v /run/udev:/run/udev:ro
+```
 
-To handle USB may need stuff like:
+Additionally, for each class of device, permission must be granted with a
+`--device-cgroup-rule` argument. For example to allow USB serial devices:
+
+```
+--device-cgroup-rule='c 188:* rmw'
+```
+
+Here are some example devices that could be included:
 
 ```
 # webcams
@@ -42,12 +51,4 @@ To handle USB may need stuff like:
 
 # gpiochip
 --device-cgroup-rule='c 254:* rmw'
-```
-
-See <https://stackoverflow.com/a/66427245>
-
-Test if need to add to `dialout` group:
-
-```
---group-add dialout
 ```
